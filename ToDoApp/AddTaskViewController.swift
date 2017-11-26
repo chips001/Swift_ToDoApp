@@ -54,10 +54,10 @@ class AddTaskViewController: UIViewController {
         //contextを定義
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-        //taskにTask型(DBのエンティティ)を代入
+        //taskにDBのエンティティを代入
         let task = Task(context: context)
         
-        //先ほど定義したTask型データのname,categoryプロパティに入力、選択したデータを代入
+        //先ほど定義したname,categoryに選択したデータを代入
         task.name = taskName
         task.category = taskCategory
         
