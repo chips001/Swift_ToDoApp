@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController {
 
     @IBOutlet weak var taskTableView: UITableView!
 //    @IBOutlet weak var addTaskButton: UIButton!
@@ -30,6 +30,41 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         taskTableView.reloadData()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    @IBAction func addTaskBtnTapped(_ sender: AnyObject) {
+        let storyboard:UIStoryboard = self.storyboard!
+        let addTaskViewController = storyboard.instantiateViewController(withIdentifier: "AddTaskViewController")
+        present(addTaskViewController, animated: true, completion: nil)
+    }
+    
+    func getDate() {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        do{
+            //CoreDataからデータをfetchしてtasksに格納
+            let fatchRequet: NSFetchRequest<Task> = Task.fetchRequest()
+            tasks = try context.fetch(fatchRequet)
+            
+            //tasksToShow配列を空にする(同じデータを複数表示しないため)
+            for key in tasksToShow.keys{
+                tasksToShow[key] = []
+            }
+            
+            //先ほどfetchしたデータをtasksToShow配列に格納
+            for task in tasks {
+                tasksToShow[task.category!]?.append(task.name!)
+            }
+        }catch{
+            print("Fetching Failed.")
+        }
+    }
+}
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+
     //taskCategotiesに格納されている文字列がTableViewのセクションになる
     func numberOfSections(in tableView: UITableView) -> Int {
         return taskCategorise.count
@@ -45,7 +80,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        guard let cell = taskTableView.dequeueReusableCell(withIdentifier: TaskCell.reuseIdentifier) as? TaskCell else{
+            fatalError("create fail")
+        }
         
         //変数sectionDataはtaskCategoriseの要素をKeyとして取り出されたArrayである
         let sectionData = tasksToShow[taskCategorise[indexPath.section]]
@@ -84,41 +121,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //tableViewを再読み込み
         taskTableView.reloadData()
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    @IBAction func addTaskBtnTapped(_ sender: AnyObject) {
-        let storyboard:UIStoryboard = self.storyboard!
-        let addTaskViewController = storyboard.instantiateViewController(withIdentifier: "AddTaskViewController")
-        present(addTaskViewController, animated: true, completion: nil)
-    }
-    
-    func getDate() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        do{
-            //CoreDataからデータをfetchしてtasksに格納
-            let fatchRequet: NSFetchRequest<Task> = Task.fetchRequest()
-            tasks = try context.fetch(fatchRequet)
-            
-            //tasksToShow配列を空にする(同じデータを複数表示しないため)
-            for key in tasksToShow.keys{
-                tasksToShow[key] = []
-            }
-            
-            //先ほどfetchしたデータをtasksToShow配列に格納
-            for task in tasks {
-                tasksToShow[task.category!]?.append(task.name!)
-            }
-        }catch{
-            print("Fetching Failed.")
-        }
-    }
-    
-    
-
-    
 }
 
+class TaskCell: UITableViewCell{
+    
+    @IBOutlet weak var taskLavel: UILabel!
+    static let reuseIdentifier = "TaskCell"
+    
+    override func awakeFromNib() {
+            super.awakeFromNib()
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+}
