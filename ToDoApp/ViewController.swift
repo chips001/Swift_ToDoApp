@@ -135,4 +135,11 @@ class TaskCell: UITableViewCell{
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    //cell内アイテムのActionを外部で処理する場合に利用（例：Cell内のButtonAction）
+    //    var didTapTestCellHundler: (() -> Void)?
+    //    @IBAction func hundleButton(_ sender: UIButton) {
+    //        self.didTapTestCellHundler?()
+    //    }
+    //このdidTapTestCellHundlerをcellForRowで生成したカスタムcustomCellのTap処理のクロージャとして使用する
 }
