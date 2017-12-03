@@ -11,18 +11,33 @@ import UIKit
 class AddTaskViewController: UIViewController {
 
     @IBOutlet weak var taskTextField: UITextField!
-    @IBOutlet weak var caregorySegmentControl: UISegmentedControl!
+    @IBOutlet weak var categorySegmentControl: UISegmentedControl!
     var taskCategory = "ToDo"
+    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var task: Task?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        if let task = task{
+            taskTextField.text = task.name
+            taskCategory = task.category!
+            
+            switch task.category! {
+            case "ToDo" :
+                categorySegmentControl.selectedSegmentIndex = 0
+            case "Shopping" :
+                categorySegmentControl.selectedSegmentIndex = 1
+            case "Assignment" :
+                categorySegmentControl.selectedSegmentIndex = 2
+            default:
+                categorySegmentControl.selectedSegmentIndex = 0
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func categoryTapped(_ sender: UISegmentedControl) {
@@ -51,31 +66,21 @@ class AddTaskViewController: UIViewController {
             return
         }
         
-        //contextを定義
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        
+        //受け取った値が空であれば、新しいTask型オブジェクトを作成する
+        if task == nil{
         //taskにDBのエンティティを代入
-        let task = Task(context: context)
+            task = Task(context: context)
+        }
         
-        //先ほど定義したname,categoryに選択したデータを代入
-        task.name = taskName
-        task.category = taskCategory
-        
+        //受け取った値があれば、その値を代入
+        if let task = task{
+            task.name = taskName
+            task.category = taskCategory
+        }
         //作成したデータをDBに保存
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
         
         dismiss(animated: true, completion: nil)
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

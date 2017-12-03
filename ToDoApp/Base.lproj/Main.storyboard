@@ -119,9 +119,6 @@
                                     <segment title="Assignment"/>
                                 </segments>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="categoryTapped:" destination="U21-LW-uJK" eventType="valueChanged" id="PsM-ZA-uLN"/>
-                                </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zkn-PA-rr2">
                                 <rect key="frame" x="309" y="153" width="50" height="50"/>
@@ -135,7 +132,7 @@
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="caregorySegmentControl" destination="KQf-cp-lg7" id="Gbq-Mt-p1j"/>
+                        <outlet property="categorySegmentControl" destination="KQf-cp-lg7" id="Skn-7a-X0A"/>
                         <outlet property="taskTextField" destination="PKd-gO-pFr" id="5eE-5a-mxs"/>
                     </connections>
                 </viewController>
@@ -149,6 +146,6 @@
         <image name="plusButton" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0VO-QO-ovv"/>
+        <segue reference="dry-pE-Sb6"/>
     </inferredMetricsTieBreakers>
 </document>

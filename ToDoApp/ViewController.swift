@@ -12,7 +12,6 @@ import CoreData
 class ViewController: UIViewController {
 
     @IBOutlet weak var taskTableView: UITableView!
-//    @IBOutlet weak var addTaskButton: UIButton!
     
     var tasks:[Task] = []
     var tasksToShow:[String:[String]] = ["ToDo":[], "Shopping":[], "Assignment":[]]
@@ -30,11 +29,34 @@ class ViewController: UIViewController {
         taskTableView.reloadData()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    //編集機能の実装
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        guard let destinationViewController = segue.destination as? AddTaskViewController else { return }
+        
+        //contextをAddTaskViewController.swiftへ渡す
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        destinationViewController.context = context
+        
+        if let indexPath = taskTableView.indexPathForSelectedRow, segue.identifier == "EditTaskSegue"{
+            let editCategory = taskCategorise[indexPath.section]
+            let editName = tasksToShow[editCategory]?[indexPath.row]
+            
+            //得たcategoryとnameに合致するデータのみをgetchするようにfetchRequestを作成
+            let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "name = %@ and category = %@", editName!, editCategory)
+            
+            //fetchRequestを満たすデータをfetchしてtask(配列だが要素を1種類しか持たないはず)に代入し、それを渡す
+            do{
+                let task = try context.fetch(fetchRequest)
+                destinationViewController.task = task[0]
+            } catch {
+                print("Fetching Failed.")
+            }
+        }
+        
     }
-
+    
     @IBAction func addTaskBtnTapped(_ sender: AnyObject) {
         let storyboard:UIStoryboard = self.storyboard!
         let addTaskViewController = storyboard.instantiateViewController(withIdentifier: "AddTaskViewController")
