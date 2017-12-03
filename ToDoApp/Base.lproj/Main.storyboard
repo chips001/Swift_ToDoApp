@@ -119,6 +119,9 @@
                                     <segment title="Assignment"/>
                                 </segments>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="categoryTapped:" destination="U21-LW-uJK" eventType="valueChanged" id="xhG-R8-Poz"/>
+                                </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zkn-PA-rr2">
                                 <rect key="frame" x="309" y="153" width="50" height="50"/>
