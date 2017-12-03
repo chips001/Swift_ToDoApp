@@ -165,3 +165,12 @@ class TaskCell: UITableViewCell{
     //    }
     //このdidTapTestCellHundlerをcellForRowで生成したカスタムcustomCellのTap処理のクロージャとして使用する
 }
+
+//クラスメソッドの書き方
+//class Say {
+//    static func test() {
+//        print("Test!!")
+//    }
+//}
+//
+//Say.test() // "Test!!"

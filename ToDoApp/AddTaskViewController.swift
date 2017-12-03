@@ -25,13 +25,13 @@ class AddTaskViewController: UIViewController {
             
             switch task.category! {
             case "ToDo" :
-                categorySegmentControl.selectedSegmentIndex = 0
+                categorySegmentControl.selectedSegmentIndex = CategorySelect.ToDo.rawValue
             case "Shopping" :
-                categorySegmentControl.selectedSegmentIndex = 1
+                categorySegmentControl.selectedSegmentIndex = CategorySelect.Shopping.rawValue
             case "Assignment" :
-                categorySegmentControl.selectedSegmentIndex = 2
+                categorySegmentControl.selectedSegmentIndex = CategorySelect.Assignment.rawValue
             default:
-                categorySegmentControl.selectedSegmentIndex = 0
+                categorySegmentControl.selectedSegmentIndex = CategorySelect.ToDo.rawValue
             }
         }
     }
